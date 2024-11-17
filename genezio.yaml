@@ -1,53 +1,29 @@
-# Learn more about Genezio YAML at https://genezio.com/docs/project-structure/genezio-configuration-file/
-# The name of the project.
-name: express-react-getting-started
-# The region where the project is deployed.
-region: us-east-1
-# The version of the Genezio YAML configuration to parse.
-yamlVersion: 2
 backend:
-  # The root directory of the backend.
-  path: server
-  # Information about the backend's programming language.
-  language:
-    # The name of the programming language.
-    name: js
-    # The package manager used by the backend.
-    packageManager: npm
-  # Scripts are running in the specified `path` directory.
-  functions:
-    # The name (label) of the function.
-    - name: express
-      # The path to the function's code.
-      path: ./
-      # The entry point for the function.
-      entry: app.mjs
-      # The compatibility of the function handler.
-      type: httpServer
-  scripts:
-    # List of scripts to run before deploying the backend.
-    deploy: npm install
-    # List of scripts to run before starting `genezio local`.
-    local: npm install
-# Information about the frontend, including the path, language, and publish directory.
-# It is optional. It can also be an array if there are multiple frontends you want to deploy.
+    functions:
+        - entry: app.mjs
+          name: express
+          path: ./
+          type: httpServer
+    language:
+        name: js
+        packageManager: npm
+    path: server
+    scripts:
+        deploy: npm install
+        local: npm install
 frontend:
-  # The folder where the frontend scripts will run.
-  path: client
-  # Specifies information about the SDK generation. If not specified, the SDK will not be generated for this frontend.
-  # The directory that will be published to the CDN. It is relative to the `path` directory.
-  publish: dist
-  # Environment variables that will be injected into the frontend.
-  environment:
-    VITE_API_URL: ${{ backend.functions.express.url }}
-  # Scripts are running in the specified `path` directory.
-  scripts:
-    # List of scripts to run before deploying the frontend.
-    deploy:
-      - npm install
-    # List of scripts that build your frontend before deployment. It should populate the specified `publish` directory.
-    build: npm run build
-    # List of scripts to run when starting the local development server.
-    start:
-      - npm install --silent
-      - npm run dev --silent
+    environment:
+        VITE_API_URL: ${{ backend.functions.express.url }}
+    path: client
+    publish: dist
+    scripts:
+        build: npm run build
+        deploy:
+            - npm install
+        start:
+            - npm install --silent
+            - npm run dev --silent
+    subdomain: lavenderblush-what-sheep
+name: express-react-getting-started
+region: us-east-1
+yamlVersion: 2
